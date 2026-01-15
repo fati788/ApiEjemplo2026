@@ -74,4 +74,4 @@ jobs:
             sleep 5 && 
             
             echo "Levantar contenedor Spring Boot..." && 
-            podman run -p 8080:8080 --network host  --name springapp -d -t springapiejemplo:1.0
+            podman run -p 8080:8080 --network host  --name springapp -d -t springapiejemplo:1.0 
