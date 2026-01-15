@@ -70,7 +70,7 @@ jobs:
             podman stop mariadb_spring && 
             podman start mariadb_spring && 
             
-            echo "Esperando a arrancar MariaDB..." && 
+            echo "Esperando a arrancar MariaDB..." &&
             sleep 5 && 
             
             echo "Levantar contenedor Spring Boot..." && 
