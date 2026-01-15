@@ -54,7 +54,7 @@ jobs:
           port: 22
           script: >-
             set -e && 
-            APP_DIR=/home/ubuntu/ApiEjemplo2026 && 
+            APP_DIR=/home/ubuntu/ApiEjemplo2026 &&
             cd $APP_DIR && 
             
             echo "Actualizar código en servidor..." && 
