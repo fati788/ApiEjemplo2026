@@ -1,11 +1,10 @@
 HELP.md
 .gradle
-
-!build/libs/ApiEjemplo2026-0.0.1-SNAPSHOT.jar
 build/*
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+
 ### STS ###
 .apt_generated
 .classpath
