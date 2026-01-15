@@ -53,7 +53,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: >-
-            set -e && 
+            set -e &&
             APP_DIR=/home/ubuntu/ApiEjemplo2026 &&
             cd $APP_DIR && 
             
