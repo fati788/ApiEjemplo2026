@@ -67,7 +67,7 @@ jobs:
             podman rm -f springapp || true && 
             
             echo "Levantar contenedor MariaDB..." && 
-            podman stop mariadb_spring && 
+            podman stop mariadb_spring &&
             podman start mariadb_spring && 
             
             echo "Esperando a arrancar MariaDB..." &&
