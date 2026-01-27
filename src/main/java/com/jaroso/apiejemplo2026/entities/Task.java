@@ -24,5 +24,8 @@ public class Task {
     @Column(nullable = false , name = "finish_date")
     private LocalDate finishDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
 
 }

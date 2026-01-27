@@ -1,5 +1,8 @@
 package com.jaroso.apiejemplo2026.controllers;
 
+import com.jaroso.apiejemplo2026.dtos.TaskCreateDto;
+import com.jaroso.apiejemplo2026.dtos.TaskDto;
+import com.jaroso.apiejemplo2026.dtos.TaskUpdateDto;
 import com.jaroso.apiejemplo2026.entities.Task;
 import com.jaroso.apiejemplo2026.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,37 +18,37 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
     @GetMapping("/tasks")
-    public ResponseEntity<List<Task>> getAllTasks(){
+    public ResponseEntity<List<TaskDto>> getAllTasks(){
         return ResponseEntity.ok(taskService.findAll());
     }
     @GetMapping("/tasks/order/{order}")
-   public ResponseEntity<List<Task>> getAllTaskOrder(@PathVariable String order){
+   public ResponseEntity<List<TaskDto>> getAllTaskOrder(@PathVariable String order){
        return ResponseEntity.ok(taskService.findAllByOrderByTitle(order));
    }
 
     @GetMapping("/tasks/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable Long id){
-        Optional<Task> task = taskService.findById(id);
+    public ResponseEntity<TaskDto> getTaskById(@PathVariable Long id){
+        Optional<TaskDto> task = taskService.findById(id);
         return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     @GetMapping("/tasks/title/{title}")
-    public ResponseEntity<Task> getTaskByTitle(@PathVariable String title){
-        Optional<Task> task = taskService.findByTitle(title);
+    public ResponseEntity<TaskDto> getTaskByTitle(@PathVariable String title){
+        Optional<TaskDto> task = taskService.findByTitle(title);
         return task.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/tasks")
-    public ResponseEntity<Task> createTask(@RequestBody Task task){
+    public ResponseEntity<TaskDto> createTask(@RequestBody TaskCreateDto task){
         //return ResponseEntity.ok(taskService.saveTask(task));
         return ResponseEntity.status(HttpStatus.CREATED).body(taskService.saveTask(task));
     }
     @PutMapping("/tasks")
-    public ResponseEntity<Task> updateTask(@RequestBody Task task){
-        return ResponseEntity.ok(taskService.saveTask(task));
+    public ResponseEntity<TaskDto> updateTask(@RequestBody TaskUpdateDto task){
+        return ResponseEntity.ok(taskService.updateTask(task));
     }
     @DeleteMapping("/tasks/{id}")
-    public ResponseEntity<Task> delete(@PathVariable Long id){
-        Optional<Task> task = taskService.findById(id);
+    public ResponseEntity<TaskDto> delete(@PathVariable Long id){
+        Optional<TaskDto> task = taskService.findById(id);
         if (task.isPresent()) {
             //Si el id es válido lo borramos y devolvemos 204
             taskService.deleteTask(id);
@@ -61,4 +64,10 @@ public class TaskController {
         taskService.deleteAll();
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/tasks/search/{texto}")
+    public ResponseEntity<List<TaskDto>> buscarPorTitulo(@PathVariable String texto){
+        return ResponseEntity.ok(taskService.buscarPorTitulo(texto));
+    }
+
 }
