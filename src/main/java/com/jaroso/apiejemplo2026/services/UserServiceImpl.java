@@ -1,21 +1,21 @@
 package com.jaroso.apiejemplo2026.services;
 
-import com.jaroso.apiejemplo2026.dtos.TaskDto;
 import com.jaroso.apiejemplo2026.dtos.UserCreateDto;
 import com.jaroso.apiejemplo2026.dtos.UserDto;
-import com.jaroso.apiejemplo2026.entities.Task;
 import com.jaroso.apiejemplo2026.entities.User;
 import com.jaroso.apiejemplo2026.mappers.UserMapper;
-import com.jaroso.apiejemplo2026.repositories.TaskRepository;
 import com.jaroso.apiejemplo2026.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService , UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -37,6 +37,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUserName(userName).map(mapper::toDto);
     }
 
+
+
     @Override
     public UserDto saveUer(UserCreateDto userCreateDto) {
         User userEntity = mapper.toEntity(userCreateDto);
@@ -46,5 +48,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void seleteUser(Long id) {
       userRepository.deleteById(id);
+    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        return this.userRepository.findByUserName(username).orElseThrow(
+                () -> new UsernameNotFoundException(username + " no encontrado")
+        );
     }
 }
