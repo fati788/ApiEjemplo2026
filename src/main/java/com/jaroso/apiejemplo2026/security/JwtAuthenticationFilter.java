@@ -29,36 +29,37 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-      //1.EXtraer tocken
-        String token = this.extractToken(request);
-        //2.Validar token
-        if(this.jwtService.isValidToken(token)){
-            //3.    Sacar el usuario
+        //1. Extraer token de la cabecera Http
+        String token = extractToken(request);
+
+        //2. Validar token
+        if(this.jwtService.isValidToken(token)) {
+            //3. Sacar el usuario
             String username = this.jwtService.getUsernameFromToken(token);
             UserDetails user = this.userService.loadUserByUsername(username);
-            //4.Generar objeto Authentication y meterlo en securityContext
 
+            //4. Generar objeto Authentication y meterlo en el SecurityContext
             Authentication auth = new UsernamePasswordAuthenticationToken(
                     user.getUsername(),
                     user.getPassword(),
                     user.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(auth);
-
         }
+
         //Continuar la cadena de filtros
         filterChain.doFilter(request, response);
+
     }
 
-    //Extraer token
+
+    //Extraer token de la cabecera Http
     private String extractToken(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
-        //Es un Bearer token¿?
+        //Asegurarnos que es un Bearer token
         if (StringUtils.hasLength(bearerToken) && bearerToken.startsWith("Bearer")){
             return bearerToken.substring("Bearer ".length());
         }
         return null;
     }
 }
-
-

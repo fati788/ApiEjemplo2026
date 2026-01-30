@@ -36,6 +36,13 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private List<UserAuthority> authorities = new ArrayList<>();
 
+    public User(Long id, String username, String password, String email, List<UserAuthority> authorities) {
+        this.id = id;
+        this.userName = username;
+        this.password = password;
+        this.email = email;
+        this.authorities = authorities;
+    }
     public void addTask(Task task){
         tasks.add(task);
     }
